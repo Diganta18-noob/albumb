@@ -1,0 +1,37 @@
+{
+  "name": "training-chronicles",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An ultra-premium digital magazine preserving a training journey.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "packages": "tsc -b packages/types packages/content",
+    "packages:watch": "tsc -b packages/types packages/content --watch",
+    "dev": "npm run packages && concurrently -n api,web -c cyan,yellow \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run packages && npm run dev --workspace @chronicles/api",
+    "dev:web": "npm run packages && npm run dev --workspace @chronicles/web",
+    "build": "npm run packages && npm run build --workspace @chronicles/api && npm run build --workspace @chronicles/web",
+    "build:api": "npm run packages && npm run build --workspace @chronicles/api",
+    "build:web": "npm run packages && npm run build --workspace @chronicles/web",
+    "start:api": "npm run start --workspace @chronicles/api",
+    "start:web": "npm run start --workspace @chronicles/web",
+    "seed": "npm run packages && npm run seed --workspace @chronicles/api",
+    "typecheck": "npm run packages && npm run typecheck --workspace @chronicles/api --workspace @chronicles/web --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "tsc -b packages/types packages/content --clean"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  },
+  "overrides": {
+    "postcss": "^8.5.25",
+    "sharp": "^0.35.3"
+  }
+}
